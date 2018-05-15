@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="BookID" />
+          </Key>
+          <Property Name="BookID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ISBN" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="DateofPublication" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookOnLoan">
+          <Key>
+            <PropertyRef Name="OnLoanID" />
+          </Key>
+          <Property Name="OnLoanID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="BookID" Type="int" Nullable="false" />
+          <Property Name="DateIssued" Type="datetime" Nullable="false" />
+          <Property Name="DateDueForReturn" Type="datetime" Nullable="false" />
+          <Property Name="ActualDateReturned" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LibUser">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_BookID">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="BookOnLoan" Type="Self.BookOnLoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BookID" />
+            </Principal>
+            <Dependent Role="BookOnLoan">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserID">
+          <End Role="LibUser" Type="Self.LibUser" Multiplicity="1" />
+          <End Role="BookOnLoan" Type="Self.BookOnLoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LibUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="BookOnLoan">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LMSModelStoreContainer">
+          <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookOnLoan" EntityType="Self.BookOnLoan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LibUser" EntityType="Self.LibUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BookID" Association="Self.FK_BookID">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="BookOnLoan" EntitySet="BookOnLoan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserID" Association="Self.FK_UserID">
+            <End Role="LibUser" EntitySet="LibUser" />
+            <End Role="BookOnLoan" EntitySet="BookOnLoan" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="BookID" />
+          </Key>
+          <Property Name="BookID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ISBN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateofPublication" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="BookOnLoans" Relationship="Self.FK_BookID" FromRole="Book" ToRole="BookOnLoan" />
+        </EntityType>
+        <EntityType Name="BookOnLoan">
+          <Key>
+            <PropertyRef Name="OnLoanID" />
+          </Key>
+          <Property Name="OnLoanID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="BookID" Type="Int32" Nullable="false" />
+          <Property Name="DateIssued" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateDueForReturn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActualDateReturned" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Book" Relationship="Self.FK_BookID" FromRole="BookOnLoan" ToRole="Book" />
+          <NavigationProperty Name="LibUser" Relationship="Self.FK_UserID" FromRole="BookOnLoan" ToRole="LibUser" />
+        </EntityType>
+        <EntityType Name="LibUser">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BookOnLoans" Relationship="Self.FK_UserID" FromRole="LibUser" ToRole="BookOnLoan" />
+        </EntityType>
+        <Association Name="FK_BookID">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="BookOnLoan" Type="Self.BookOnLoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BookID" />
+            </Principal>
+            <Dependent Role="BookOnLoan">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserID">
+          <End Role="LibUser" Type="Self.LibUser" Multiplicity="1" />
+          <End Role="BookOnLoan" Type="Self.BookOnLoan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LibUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="BookOnLoan">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LMSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Books" EntityType="Self.Book" />
+          <EntitySet Name="BookOnLoans" EntityType="Self.BookOnLoan" />
+          <EntitySet Name="LibUsers" EntityType="Self.LibUser" />
+          <AssociationSet Name="FK_BookID" Association="Self.FK_BookID">
+            <End Role="Book" EntitySet="Books" />
+            <End Role="BookOnLoan" EntitySet="BookOnLoans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserID" Association="Self.FK_UserID">
+            <End Role="LibUser" EntitySet="LibUsers" />
+            <End Role="BookOnLoan" EntitySet="BookOnLoans" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LMSModelStoreContainer" CdmEntityContainer="LMSEntities">
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="LMSModel.Book">
+              <MappingFragment StoreEntitySet="Book">
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="DateofPublication" ColumnName="DateofPublication" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookOnLoans">
+            <EntityTypeMapping TypeName="LMSModel.BookOnLoan">
+              <MappingFragment StoreEntitySet="BookOnLoan">
+                <ScalarProperty Name="OnLoanID" ColumnName="OnLoanID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="DateIssued" ColumnName="DateIssued" />
+                <ScalarProperty Name="DateDueForReturn" ColumnName="DateDueForReturn" />
+                <ScalarProperty Name="ActualDateReturned" ColumnName="ActualDateReturned" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LibUsers">
+            <EntityTypeMapping TypeName="LMSModel.LibUser">
+              <MappingFragment StoreEntitySet="LibUser">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
