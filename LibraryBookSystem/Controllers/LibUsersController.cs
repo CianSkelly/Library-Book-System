@@ -51,7 +51,7 @@ namespace LibraryBookSystem.Controllers
                     break;
             }
 
-            int pageSize = 3;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(LibUsers.ToPagedList(pageNumber, pageSize));
         }
