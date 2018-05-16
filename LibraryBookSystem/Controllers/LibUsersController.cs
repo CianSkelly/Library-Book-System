@@ -14,7 +14,7 @@ namespace LibraryBookSystem.Controllers
     {
         private LMSEntities db = new LMSEntities();
 
-        // GET: LibUsers
+        // GET: LibUsers May need to change ActionResults to ViewResults
         public ActionResult Index()
         {
             return View(db.LibUsers.ToList());
