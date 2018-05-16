@@ -26,5 +26,12 @@ namespace LibraryBookSystem.Controllers
 
             return View();
         }
+
+        public ActionResult LibUser()
+        {
+            ViewBag.Message = "Your Library User page.";
+
+            return View();
+        }
     }
 }

@@ -251,6 +251,7 @@
     <Content Include="Views\LibUsers\Details.cshtml" />
     <Content Include="Views\LibUsers\Edit.cshtml" />
     <Content Include="Views\LibUsers\Index.cshtml" />
+    <Content Include="Views\Home\LibUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
