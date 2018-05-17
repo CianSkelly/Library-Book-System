@@ -33,6 +33,7 @@ namespace LibraryBookSystem.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
+            
 
             var LibUsers = from n in db.LibUsers
                            select n;

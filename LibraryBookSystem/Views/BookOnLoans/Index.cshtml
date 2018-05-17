@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>List of books currently on loan</h2>
+<h2>Log of Books borrowed</h2>
 
 <p>
     @Html.ActionLink("Borrow Book", "Create")
@@ -12,19 +12,20 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DateIssued)
+            Date Issued
+            
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateDueForReturn)
+            Due Date for Return
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ActualDateReturned)
+            Actual Returned Date
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Book.ISBN)
+            ISBN
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LibUser.FirstName)
+            First Name
         </th>
         <th></th>
     </tr>
