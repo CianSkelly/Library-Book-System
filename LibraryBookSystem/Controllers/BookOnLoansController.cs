@@ -15,12 +15,20 @@ namespace LibraryBookSystem.Controllers
         private LMSEntities db = new LMSEntities();
 
         // GET: BookOnLoans
+        //added .Where(b => b.ActualDateReturned == null);
         public ActionResult Index()
         {
-            var bookOnLoans = db.BookOnLoans.Include(b => b.Book).Include(b => b.LibUser);
+            var bookOnLoans = db.BookOnLoans.Include(b => b.Book).Include(b => b.LibUser).Where(b => b.ActualDateReturned == null);
             return View(bookOnLoans.ToList());
         }
 
+        ////****Books that are on loan****
+        //SELECT Book.Title, Book.ISBN, BookOnLoan.DateDueForReturn
+        //From Books
+        //INNER JOIN BookOnLoan on Book.BookID
+        //Where BookOnLoan.DateDueForReturn > DateTime.today && BookOnLoan.ActualDateReturned ==Null
+
+            
         // GET: BookOnLoans/Details/5
         public ActionResult Details(int? id)
         {
