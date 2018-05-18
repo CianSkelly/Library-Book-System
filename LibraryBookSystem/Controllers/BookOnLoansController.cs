@@ -28,9 +28,9 @@ namespace LibraryBookSystem.Controllers
         //INNER JOIN BookOnLoan on Book.BookID
         //Where BookOnLoan.DateDueForReturn > DateTime.today && BookOnLoan.ActualDateReturned ==Null
 
-            
+
         // GET: BookOnLoans/Details/5
-        public ActionResult Details(int? id)
+       public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -93,7 +93,7 @@ namespace LibraryBookSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OnLoanID,UserID,BookID,DateIssued,DateDueForReturn,ActualDateReturned")] BookOnLoan bookOnLoan)
+        public ActionResult Edit([Bind(Include = "Book.Title,OnLoanID,UserID,BookID,DateIssued,DateDueForReturn")] BookOnLoan bookOnLoan)
         {
             if (ModelState.IsValid)
             {

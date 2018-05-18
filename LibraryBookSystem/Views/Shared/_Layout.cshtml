@@ -22,13 +22,15 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Books", "Book", "Home")</li>
-                    <li>@Html.ActionLink("Library Users", "LibUser", "Home")</li>
+                    <li>@Html.ActionLink("Books", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Library Users", "Index", "Home")</li>
                 </ul>
             </div>
         </div>
     </div>
+    
     <div class="container body-content">
+        <p>The time is @DateTime.Now</p>
         @RenderBody()
         <hr />
         <footer>
