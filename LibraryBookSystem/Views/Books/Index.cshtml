@@ -14,6 +14,15 @@
 <p>
     @Html.ActionLink("Add New Book", "Create")
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by title: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
