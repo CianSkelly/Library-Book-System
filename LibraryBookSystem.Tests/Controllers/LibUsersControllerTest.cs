@@ -5,7 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LibraryBookSystem;
-using LibraryBookSystem.Controllers;
+//using LibraryBookSystem.Controllers;
 
 namespace LibraryBookSystem.Tests.Controllers
 {
@@ -16,7 +16,7 @@ namespace LibraryBookSystem.Tests.Controllers
         public void Index()
         {
             // Arrange
-         LibUsersController controller = new LibUsersController();
+            LibUsersController controller = new LibUsersController();
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
