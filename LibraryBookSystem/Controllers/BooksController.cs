@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using LibraryBookSystem.Models;
 
 namespace LibraryBookSystem.Controllers
@@ -15,10 +16,51 @@ namespace LibraryBookSystem.Controllers
         private LMSEntities db = new LMSEntities();
 
         // GET: Books
-        public ActionResult Index()
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(db.Books.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Title_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            // this will give a page sort by 1st or second name and max returned items per page
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+
+            var Books = from b in db.Books
+                        select b;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Books = Books.Where(b => b.Title.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "Title_desc":
+                    Books = Books.OrderByDescending(b => b.Title);
+                    break;
+
+                default:  // Name ascending 
+                    Books = Books.OrderBy(b => b.Title);
+                    break;
+            }
+
+            int pageSize = 6;
+            int pageNumber = (page ?? 1);
+            return View(Books.ToPagedList(pageNumber, pageSize));
         }
+
+        //// GET: Books
+        //public ActionResult Index()
+        //{
+        //    return View(db.Books.ToList());
+        //}
 
         // GET: Books/Details/5
         public ActionResult Details(int? id)
@@ -33,6 +75,8 @@ namespace LibraryBookSystem.Controllers
                 return HttpNotFound();
             }
             return View(book);
+
+
         }
 
         // GET: Books/Create

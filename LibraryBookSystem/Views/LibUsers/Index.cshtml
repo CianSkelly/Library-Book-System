@@ -1,4 +1,103 @@
-﻿@model IEnumerable<LibraryBookSystem.Models.LibUser>
+﻿@*@model IEnumerable<LibraryBookSystem.Models.LibUser>*@
+@model PagedList.IPagedList<LibraryBookSystem.Models.LibUser>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>List of Library User</h2>
+
+<p>
+    @Html.ActionLink("Create New User", "Create")
+</p>
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            User Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Phone Number
+        </th>
+
+    </tr>
+    @*<tr>*@
+    @*<th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th></th>*@
+    @*</tr>*@
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.UserID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.UserID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.UserID })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+
+
+
+
+
+@*@model IEnumerable<LibraryBookSystem.Models.LibUser>
 
 @{
     ViewBag.Title = "Index";
@@ -54,4 +153,5 @@
     </tr>
 }
 
-</table>
+</table>*@
+

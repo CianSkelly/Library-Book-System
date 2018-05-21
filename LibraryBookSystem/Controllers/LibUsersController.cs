@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using LibraryBookSystem.Models;
+using System.Data.Entity.Infrastructure;
 
 namespace LibraryBookSystem.Controllers
 {
@@ -14,10 +16,45 @@ namespace LibraryBookSystem.Controllers
     {
         private LMSEntities db = new LMSEntities();
 
-        // GET: LibUsers
-        public ActionResult Index()
+        // GET: LibUsers May need to change ActionResults to ViewResults
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(db.LibUsers.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+
+            var LibUsers = from n in db.LibUsers
+                           select n;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                LibUsers = LibUsers.Where(n => n.LastName.Contains(searchString)
+                                       || n.FirstName.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    LibUsers = LibUsers.OrderByDescending(n => n.LastName);
+                    break;
+                default:  // Name ascending 
+                    LibUsers = LibUsers.OrderBy(n => n.LastName);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(LibUsers.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: LibUsers/Details/5
