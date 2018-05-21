@@ -15,21 +15,14 @@ namespace LibraryBookSystem.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Phil & Cian About.";
+            ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        public ActionResult Book()
+        public ActionResult Contact()
         {
-            ViewBag.Message = "Your Book page.";
-
-            return View();
-        }
-
-        public ActionResult LibUser()
-        {
-            ViewBag.Message = "Your Library User page.";
+            ViewBag.Message = "Your contact page.";
 
             return View();
         }

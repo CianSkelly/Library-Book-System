@@ -1,47 +1,24 @@
-﻿@*@model IEnumerable<LibraryBookSystem.Models.Book>*@
-
-@model PagedList.IPagedList<LibraryBookSystem.Models.Book>
-@using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-
+﻿@model IEnumerable<LibraryBookSystem.Models.Book>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Book Listing</h2>
+<h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Add New Book", "Create")
+    @Html.ActionLink("Create New", "Create")
 </p>
-
-@using (Html.BeginForm())
-{
-    <p>
-        Find by title: @Html.TextBox("SearchString")
-        <input type="submit" value="Search" />
-    </p>
-}
-
 <table class="table">
     <tr>
         <th>
-            ISBN
-            @*@Html.ActionLink("ISBN ", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })*@
-
-
-           @* @Html.DisplayNameFor(model => model.ISBN)*@
+            @Html.DisplayNameFor(model => model.ISBN)
         </th>
         <th>
-            @Html.ActionLink("Title ", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
-
-
-            @*Title*@
-            @*@Html.DisplayNameFor(model => model.Title)*@
+            @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
-            Date of Publication
-            @*@Html.DisplayNameFor(model => model.DateofPublication)*@
+            @Html.DisplayNameFor(model => model.DateofPublication)
         </th>
         <th></th>
     </tr>
@@ -66,8 +43,3 @@
 }
 
 </table>
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

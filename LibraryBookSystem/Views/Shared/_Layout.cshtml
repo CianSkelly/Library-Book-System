@@ -6,12 +6,7 @@
     <title>@ViewBag.Title - Phil and Cian's ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <style>
-
-
-    </style>
 </head>
-
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -27,19 +22,17 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Books", "Index", "Books")</li>
                     <li>@Html.ActionLink("Library Users", "Index", "LibUsers")</li>
+                    <li>@Html.ActionLink("Books", "Index", "Books")</li>
                 </ul>
             </div>
         </div>
     </div>
-    
     <div class="container body-content">
-        <p>The time is @DateTime.Now</p>
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Library Book System (Phil and Cian)</p>
+            <p>&copy; @DateTime.Now.Year - Phil and Cian's ASP.NET Application</p>
         </footer>
     </div>
 
